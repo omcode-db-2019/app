@@ -132,7 +132,7 @@ class m190608_182055_station extends Migration
      */
     public function safeDown()
     {
-        $this->delete('station');
+        $this->dropTable('station');
     }
 }
 

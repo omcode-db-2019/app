@@ -27,6 +27,6 @@ class m190608_181549_city extends Migration
      */
     public function safeDown()
     {
-        $this->delete('city');
+        $this->dropTable('city');
     }
 }

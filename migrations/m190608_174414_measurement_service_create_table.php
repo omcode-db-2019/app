@@ -26,21 +26,6 @@ class m190608_174414_measurement_service_create_table extends Migration
      */
     public function safeDown()
     {
-        $this->delete('measurement_service');
+        $this->dropTable('measurement_service');
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m190608_174414_measurement_service_create_table cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }
