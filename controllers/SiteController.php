@@ -103,15 +103,25 @@ class SiteController extends Controller
             if ($aqi >= 300) {
                 $color = '#FF0000';
             }
+            $content = '';
+            $addContent = function ($string) use (&$content) {
+                if ($content !== '') {
+                    $content .= '<br>';
+                }
+                $content .= $string;
+            };
+
+            $measurement->co === NULL ?: $addContent('CO: ' . $measurement->co);
+            $measurement->so2 === NULL ?: $addContent('SO2: ' . $measurement->so2);
             $items[] = [
                 'latitude' => $measurement->station->latitude,
                 'longitude' => $measurement->station->longitude,
                 'options' => [
                     [
-                        'hintContent' => $measurement->station->name,
-                        'balloonContentHeader' => 'a',
-                        'balloonContentBody' => $measurement->date,
-                        'balloonContentFooter' => 's',
+                        'hintContent' => 'Индекс: <b>' . $measurement->aqi . '</b>',
+                        'balloonContentHeader' => $measurement->date,
+                        'balloonContentBody' => $measurement->station->name,
+                        'balloonContentFooter' => $content,
                     ],
                     [
                         'preset' => 'islands#icon',
