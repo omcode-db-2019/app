@@ -11,6 +11,8 @@ use Yii;
  * @property int $service_id
  * @property string $name
  * @property string $endpoint
+ * @property float $latitude
+ * @property float $longitude
  * @property int $city_id
  */
 class Station extends \yii\db\ActiveRecord
