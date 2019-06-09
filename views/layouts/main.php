@@ -20,14 +20,14 @@ use yii\helpers\Html;
 </head>
 <body>
 <?php $this->beginBody() ?>
-    <div class="header">
-        <h1><?= Html::a('Экозыв', ['/']) ?></h1>
-        <a></a><?= Html::a('сообщить о проблеме', ['/']) ?></a>
-    </div>
+<div class="header">
+    <h1><?= Html::a('Экозов', ['/']) ?></h1>
+    <a></a><?= Html::a('сообщить о проблеме', ['/']) ?></a>
+</div>
 
-    <div class="content">
-        <?= $content ?>
-    </div>
+<div class="content">
+    <?= $content ?>
+</div>
 <?php $this->endBody() ?>
 </body>
 </html>
