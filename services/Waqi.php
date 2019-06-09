@@ -4,13 +4,15 @@
 namespace app\services;
 
 
-use app\exception\Exceptions\InvalidAccessTokenException;
+use app\exceptions\InvalidAccessTokenException;
+use app\models\Station;
 use DateTime;
 use DateTimeZone;
 use GuzzleHttp\Client;
-use QuotaExceededException;
+use GuzzleHttp\Exception\GuzzleException;
+use app\exceptions\QuotaExceededException;
 use UnexpectedValueException;
-use UnknownStationException;
+use app\exceptions\UnknownStationException;
 
 class Waqi
 {
@@ -19,26 +21,31 @@ class Waqi
     private $token;
 
     private $raw_data;
+    /**
+     * @var Station
+     */
+    private $station;
 
-    public function __construct(string $token)
+    public function __construct()
     {
-        $this->token = $token;
+        $this->token = getenv('WAQI_TOKEN');
     }
 
     /**
-     * @param string $station
+     * @param Station $station
+     * @throws GuzzleException
      * @throws InvalidAccessTokenException
      * @throws QuotaExceededException
      * @throws UnknownStationException
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getObservationByStation(string $station): void
+    public function getObservationByStation(Station $station): void
     {
+        $this->station = $station;
         if (empty($station)) {
             throw new UnexpectedValueException(sprintf('Monitoring station or city "%s" is an invalid value.', $station));
         }
         $client = new Client(['base_uri' => self::ENDPOINT]);
-        $response = $client->request('GET', 'feed/' . $station . '/', ['query' => 'token=' . $this->token]);
+        $response = $client->request('GET', 'feed/' . $station->endpoint . '/', ['query' => 'token=' . $this->token]);
         $_response_body = json_decode($response->getBody());
         if ($_response_body->status === 'ok') {
             $this->raw_data = $_response_body->data;
@@ -84,7 +91,7 @@ class Waqi
         return (array)json_decode(\json_encode($this->raw_data->attributions), true);
     }
 
-    public function getHumidity(): ?float
+    public function getHumidity(): ?string
     {
         return $this->raw_data->iaqi->h->v ?? null;
     }
@@ -94,37 +101,37 @@ class Waqi
         return $this->raw_data->iaqi->t->v ?? null;
     }
 
-    public function getPressure(): ?float
+    public function getPressure(): ?string
     {
         return $this->raw_data->iaqi->p->v ?? null;
     }
 
-    public function getCO(): ?float
+    public function getCO(): ?string
     {
         return $this->raw_data->iaqi->co->v ?? null;
     }
 
-    public function getNO2(): ?float
+    public function getNO2(): ?string
     {
         return $this->raw_data->iaqi->no2->v ?? null;
     }
 
-    public function getO3(): ?float
+    public function getO3(): ?string
     {
         return $this->raw_data->iaqi->o3->v ?? null;
     }
 
-    public function getPM10(): ?float
+    public function getPM10(): ?string
     {
         return $this->raw_data->iaqi->pm10->v ?? null;
     }
 
-    public function getPM25(): ?float
+    public function getPM25(): ?string
     {
         return $this->raw_data->iaqi->pm25->v ?? null;
     }
 
-    public function getSO2(): ?float
+    public function getSO2(): ?string
     {
         return $this->raw_data->iaqi->so2->v ?? null;
     }
@@ -132,5 +139,9 @@ class Waqi
     public function getPrimaryPollutant(): string
     {
         return (string)$this->raw_data->dominentpol;
+    }
+
+    public function getStationId() {
+        return $this->station->id;
     }
 }

@@ -2,7 +2,8 @@
 
 namespace app\models;
 
-use Yii;
+use app\services\Waqi;
+use DateTime;
 
 /**
  * This is the model class for table "measurement".
@@ -60,5 +61,21 @@ class Measurement extends \yii\db\ActiveRecord
             'so2' => 'So2',
             'temperature' => 'Temperature',
         ];
+    }
+
+    public static function create(Waqi $waqi)
+    {
+        $model = new self();
+        $model->date = $waqi->getMeasurementTime()->format('Y-m-d H:i:s');
+        $model->aqi = $waqi->getAQI();
+        $model->station_id = $waqi->getStationId();
+        $model->co = $waqi->getCO();
+        $model->no2 = $waqi->getNO2();
+        $model->o3 = $waqi->getO3();
+        $model->pm10 = $waqi->getPM10();
+        $model->pm25 = $waqi->getPM25();
+        $model->so2 = $waqi->getSO2();
+        $model->temperature = $waqi->getTemperature();
+        $model->save();
     }
 }

@@ -1,5 +1,9 @@
 <?php
 
+namespace app\exceptions;
+
+use Exception;
+
 class QuotaExceededException extends Exception
 {
     public function __construct()
