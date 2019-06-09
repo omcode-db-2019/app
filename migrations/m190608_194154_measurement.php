@@ -15,7 +15,7 @@ class m190608_194154_measurement extends Migration
         $this->createTable('measurement', [
             'id' => $this->primaryKey(),
             'aqi' => $this->integer(),
-            'date' => $this->date(),
+            'date' => $this->dateTime(),
             'station_id' => $this->integer(),
             'co' => $this->string(),
             'no2' => $this->string(),
