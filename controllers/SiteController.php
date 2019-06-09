@@ -72,7 +72,7 @@ class SiteController extends Controller
                     [
                         'iconLayout' => 'default#image',
                         'iconImageHref' => Url::base() . '/images/icons/alarm.svg',
-                        'iconImageSize' => [30, 30],
+                        'iconImageSize' => [20, 20],
                         'iconImageOffset' => [-3, -5]
                     ]
                 ]
@@ -156,7 +156,7 @@ class SiteController extends Controller
                     [
                         'iconLayout' => 'default#image',
                         'iconImageHref' => Url::base() . '/images/icons/building.svg',
-                        'iconImageSize' => [10, 10],
+                        'iconImageSize' => [15, 15],
                         'iconImageOffset' => [-3, -5]
                     ]
                 ]
