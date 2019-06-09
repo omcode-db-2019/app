@@ -60,8 +60,8 @@ class SiteController extends Controller
         $items = [];
         foreach ($messages as $message) {
             $items[] = [
-                'latitude' => $message->longitude,
-                'longitude' => $message->latitude,
+                'latitude' => $message->latitude,
+                'longitude' => $message->longitude,
                 'options' => [
                     [
                         'hintContent' => $message->problem,
