@@ -83,7 +83,7 @@ $form = ActiveForm::begin([
 <?php
 yii\bootstrap\Modal::begin([
     'headerOptions' => ['id' => 'modalHeader-2'],
-    'header' => '<h3>Оставить экостатус</h3>',
+    'header' => '<h3>Отправить экостатус</h3>',
     'id' => 'modal2',
     'size' => 'modal-md',
     'closeButton' => [
