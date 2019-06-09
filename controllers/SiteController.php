@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Measurement;
+use app\models\Message;
 use app\models\Station;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -44,30 +45,35 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+
         $stationIds = Station::find('id')->where(['service_id' => 1])->asArray()->column();
         $measurements = Measurement::find()->joinWith('station')->where(['station_id' => $stationIds])->orderBy('date')->all();
 
 
-//        $messages = Message::find()->limit(100)->all();
-//        $items = [];
-//        foreach ($messages as $message) {
-//            $items[] = [
-//                'latitude' => $message->latitude,
-//                'longitude' => $message->longitude,
-//                'options' => [
-//                    [
-//                        'hintContent' => $message->problem,
-//                        'balloonContentHeader' => $message->problem,
-//                        'balloonContentBody' => $message->comments,
-//                        'balloonContentFooter' => '',
-//                    ],
-//                    [
-//                        'preset' => 'islands#circleIcon',
-//                        'iconColor' => '#19a111',
-//                    ]
-//                ]
-//            ];
-//        }
+        // Complaints
+        $messages = Message::find()->all();
+        $items = [];
+        foreach ($messages as $message) {
+            $items[] = [
+                'latitude' => $message->longitude,
+                'longitude' => $message->latitude,
+                'options' => [
+                    [
+                        'hintContent' => $message->problem,
+                        'balloonContentHeader' => $message->problem,
+                        'balloonContentBody' => $message->comments,
+                        'balloonContentFooter' => '',
+                        'iconImageHref' =>  '/maps/doc/jsapi/2.x/examples/images/myIcon.gif',
+                    ],
+                    [
+                        'preset' => 'islands#circleIcon',
+                        'iconColor' => '#19a111',
+                    ]
+                ]
+            ];
+        }
+//var_dump($messages);
+        // Ecodata.
         $color = '#00FF00';
         foreach ($measurements as $measurement) {
             $aqi = $measurement->aqi;
