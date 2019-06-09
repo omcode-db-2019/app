@@ -14,6 +14,7 @@ use Yii;
  * @property string $city
  * @property string $problem
  * @property string $comments
+ * @property string $date
  */
 class Message extends \yii\db\ActiveRecord
 {
