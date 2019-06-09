@@ -24,6 +24,7 @@ use yii\widgets\ActiveForm;
         .header img {
             height: 50px;
             text-align: center;
+            cursor: pointer;
         }
 
         .header div {
