@@ -2,10 +2,12 @@
 
 namespace app\controllers;
 
+use app\models\Company;
 use app\models\Measurement;
 use app\models\Station;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 use yii\web\Controller;
 
 class SiteController extends Controller
@@ -69,6 +71,7 @@ class SiteController extends Controller
 //            ];
 //        }
         $color = '#00FF00';
+        $items = [];
         foreach ($measurements as $measurement) {
             $aqi = $measurement->aqi;
             if ($aqi >= 0 && $aqi <= 50) {
@@ -111,6 +114,34 @@ class SiteController extends Controller
                 ]
             ];
         }
+        $items = array_merge($items, $this->buildCompanyItems());
         return $this->render('index', ['items' => $items]);
+    }
+
+    private function buildCompanyItems()
+    {
+        $items = [];
+        $companies = Company::find()->all();
+        foreach ($companies as $company) {
+            $items[] = [
+                'latitude' => $company->latitude,
+                'longitude' => $company->longitude,
+                'options' => [
+                    [
+                        'hintContent' => $company->short_name,
+                        'balloonContentHeader' => $company->full_name,
+                        'balloonContentBody' => $company->address,
+                        'balloonContentFooter' => $company->category,
+                    ],
+                    [
+                        'iconLayout' => 'default#image',
+                        'iconImageHref' => Url::base() . '/images/mm_20_red.gif',
+                        'iconImageSize' => [6, 10],
+                        'iconImageOffset' => [-3, -5]
+                    ]
+                ]
+            ];
+        }
+        return $items;
     }
 }
