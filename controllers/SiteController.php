@@ -51,12 +51,12 @@ class SiteController extends Controller
         $measurements = Measurement::find()
             ->joinWith('station')
             ->where(['station_id' => $stationIds])
-            ->orderBy('date DESC')
+            ->orderBy('date DESC')->distinct('station_id')
             ->limit(count($stationIds))->all();
 
 
         // Complaints
-        $messages = Message::find()->orderBy('date DESC')->all();
+        $messages = Message::find()->orderBy('date DESC')->limit(1)->all();
         $items = [];
         foreach ($messages as $message) {
             $items[] = [
@@ -70,38 +70,40 @@ class SiteController extends Controller
                         'balloonContentFooter' => '',
                     ],
                     [
-                        'preset' => 'islands#circleIcon',
-                        'iconColor' => '#19a111',
+                        'iconLayout' => 'default#image',
+                        'iconImageHref' => Url::base() . '/images/icons/alarm.svg',
+                        'iconImageSize' => [30, 30],
+                        'iconImageOffset' => [-3, -5]
                     ]
                 ]
             ];
         }
         // Ecodata.
-        $color = '#00FF00';
+        $image = '';
         foreach ($measurements as $measurement) {
             $aqi = $measurement->aqi;
             if ($aqi >= 0 && $aqi <= 50) {
-                $color = '#00FF00';
+                $image = Url::base() . '/images/icons/good.svg';
             }
 
             if ($aqi >= 51 && $aqi <= 100) {
-                $color = '#88FF00';
+                $image = Url::base() . '/images/icons/moderate.svg';
             }
             // AQI Level: Unhealthy for sensitive groups
             if ($aqi >= 101 && $aqi <= 150) {
-                $color = '#FFFF00';
+                $image = Url::base() . '/images/icons/unhealthy_for_sensitive_groups.svg';
             }
             // AQI Level: Unhealthy
             if ($aqi >= 151 && $aqi <= 200) {
-                $color = '#FF7700';
+                $image = Url::base() . '/images/icons/unhealty.svg';
             }
             // AQI Level: Very unhealthy
             if ($aqi >= 201 && $aqi <= 300) {
-                $color = '#FF3300';
+                $image = Url::base() . '/images/icons/very_unhealthy.svg';
             }
             // AQI Level: Hazardous
             if ($aqi >= 300) {
-                $color = '#FF0000';
+                $image = Url::base() . '/images/icons/hazardous.svg';
             }
             $content = '';
             $addContent = function ($string) use (&$content) {
@@ -124,8 +126,10 @@ class SiteController extends Controller
                         'balloonContentFooter' => $content,
                     ],
                     [
-                        'preset' => 'islands#icon',
-                        'iconColor' => $color,
+                        'iconLayout' => 'default#image',
+                        'iconImageHref' => $image,
+                        'iconImageSize' => [30, 30],
+                        'iconImageOffset' => [-3, -5]
                     ]
                 ]
             ];
@@ -151,8 +155,8 @@ class SiteController extends Controller
                     ],
                     [
                         'iconLayout' => 'default#image',
-                        'iconImageHref' => Url::base() . '/images/mm_20_red.gif',
-                        'iconImageSize' => [6, 10],
+                        'iconImageHref' => Url::base() . '/images/icons/building.svg',
+                        'iconImageSize' => [10, 10],
                         'iconImageOffset' => [-3, -5]
                     ]
                 ]
