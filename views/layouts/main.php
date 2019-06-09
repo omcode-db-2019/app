@@ -1,7 +1,9 @@
 <?php
 
+use app\models\MessageForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -36,15 +38,57 @@ use yii\helpers\Url;
 <body>
 <?php $this->beginBody() ?>
 <div class="header">
-    <h1><?= Html::a('Экозов', ['/']) ?></h1>
-    <div><img src="<?= Url::base() . '/images/icons/alarm_for_user.svg' ?>" alt="alarm_for_user">
-        <img src="<?= Url::base() . '/images/icons/megaphone_for_business.svg' ?>" alt="megaphone_for_business"></div>
+    <h1>ЭКОЗОВ</h1>
+    <div>
+        <img class="openModal" src="<?= Url::base() . '/images/icons/alarm_for_user.svg' ?>" alt="alarm_for_user">
+        <img class="openModal" src="<?= Url::base() . '/images/icons/megaphone_for_business.svg' ?>" alt="megaphone_for_business"></div>
 </div>
 
 <div class="content">
     <?= $content ?>
 </div>
+<?php
+yii\bootstrap\Modal::begin([
+    'headerOptions' => ['id' => 'modalHeader'],
+    'header' => '<h3>Оставить жалобу</h3>',
+    'id' => 'modal',
+    'size' => 'modal-md',
+    'closeButton' => [
+        'id' => 'close-button',
+        'class' => 'close',
+        'data-dismiss' => 'modal',
+    ]
+]);
+
+$form = ActiveForm::begin([
+    'id' => 'login-form',
+    'options' => ['class' => 'form-horizontal', 'style' => "margin: 20px"],
+]) ?>
+<?= $form->field(new MessageForm(), 'message')->textarea(['rows' => '6'])->label('') ?>
+
+<div class="form-group">
+    <div class="col-lg-offset-1 col-lg-11">
+        <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
+    </div>
+</div>
+<?php ActiveForm::end() ?>
+
+
+
+<?php yii\bootstrap\Modal::end();
+?>
 <?php $this->endBody() ?>
+<?php
+$script = <<< JS
+    $(function() {
+        $('.openModal').click(function () {
+            $('#modal').modal('show')
+        });
+    });
+JS;
+
+$this->registerJs($script);
+?>
 </body>
 </html>
 <?php $this->endPage() ?>
