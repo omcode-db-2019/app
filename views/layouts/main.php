@@ -32,6 +32,7 @@ use yii\widgets\ActiveForm;
 
         .header h1 {
             padding: 0 10px 0 10px;
+            color: #fff;
         }
     </style>
 </head>
