@@ -7,8 +7,8 @@ use phpnt\yandexMap\YandexMaps; ?>
 <?= YandexMaps::widget([
     'myPlacemarks'          => $items,
     'mapOptions'            => [
-        'center'            => [52, 59],                                                // центр карты
-        'zoom'              => 3,                                                       // показывать в масштабе
+        'center'            => [55.7532236,37.6004214],                                                // центр карты
+        'zoom'              => 11,                                                       // показывать в масштабе
         'controls'          => ['zoomControl',  'fullscreenControl'],  // использовать эл. управления
         'control'           => [
             'zoomControl'   => [                                                        // расположение кнопок управлением масштабом

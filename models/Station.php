@@ -49,4 +49,8 @@ class Station extends \yii\db\ActiveRecord
             'city_id' => 'City ID',
         ];
     }
+
+    public function getMeasurement() {
+        return $this->hasOne(Measurement::className(), ['station_id' => 'id']);
+    }
 }

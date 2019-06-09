@@ -78,4 +78,8 @@ class Measurement extends \yii\db\ActiveRecord
         $model->temperature = $waqi->getTemperature();
         $model->save();
     }
+
+    public function getStation() {
+        return $this->hasOne(Station::className(), ['id' => 'station_id']);
+    }
 }
