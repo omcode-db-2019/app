@@ -51,12 +51,12 @@ class SiteController extends Controller
         $measurements = Measurement::find()
             ->joinWith('station')
             ->where(['station_id' => $stationIds])
-            ->orderBy('date ASC')
+            ->orderBy('date DESC')
             ->limit(count($stationIds))->all();
 
 
         // Complaints
-        $messages = Message::find()->orderBy('date ASC')->limit(350)->all();
+        $messages = Message::find()->orderBy('date DESC')->limit(350)->all();
         $items = [];
         foreach ($messages as $message) {
             $items[] = [
