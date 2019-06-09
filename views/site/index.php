@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-$this->title = 'Экозыв';
+$this->title = 'Экозов';
 
 use phpnt\yandexMap\YandexMaps; ?>
 
