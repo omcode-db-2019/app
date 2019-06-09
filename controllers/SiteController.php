@@ -76,10 +76,8 @@ class SiteController extends Controller
                 ]
             ];
         }
-//var_dump($messages);
         // Ecodata.
         $color = '#00FF00';
-        $items = [];
         foreach ($measurements as $measurement) {
             $aqi = $measurement->aqi;
             if ($aqi >= 0 && $aqi <= 50) {
