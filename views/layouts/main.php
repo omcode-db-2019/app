@@ -21,7 +21,8 @@ use yii\helpers\Html;
 <body>
 <?php $this->beginBody() ?>
     <div class="header">
-        <h1><?= Html::a('OmcodeHackathon', ['/']) ?></h1>
+        <h1><?= Html::a('Экозыв', ['/']) ?></h1>
+        <a></a><?= Html::a('сообщить о проблеме', ['/']) ?></a>
     </div>
 
     <div class="content">
