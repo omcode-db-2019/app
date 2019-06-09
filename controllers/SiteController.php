@@ -56,7 +56,7 @@ class SiteController extends Controller
 
 
         // Complaints
-        $messages = Message::find()->orderBy('date DESC')->limit(350)->all();
+        $messages = Message::find()->orderBy('date DESC')->all();
         $items = [];
         foreach ($messages as $message) {
             $items[] = [
