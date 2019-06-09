@@ -41,8 +41,9 @@ use yii\widgets\ActiveForm;
 <div class="header">
     <h1>ЭКОЗОВ</h1>
     <div>
-        <img class="openModal" src="<?= Url::base() . '/images/icons/alarm_for_user.svg' ?>" alt="alarm_for_user">
-        <img class="openModal" src="<?= Url::base() . '/images/icons/megaphone_for_business.svg' ?>" alt="megaphone_for_business"></div>
+        <img class="openModal1" src="<?= Url::base() . '/images/icons/alarm_for_user.svg' ?>" alt="alarm_for_user">
+        <img class="openModal2" src="<?= Url::base() . '/images/icons/megaphone_for_business.svg' ?>"
+             alt="megaphone_for_business"></div>
 </div>
 
 <div class="content">
@@ -51,8 +52,8 @@ use yii\widgets\ActiveForm;
 <?php
 yii\bootstrap\Modal::begin([
     'headerOptions' => ['id' => 'modalHeader'],
-    'header' => '<h3>Оставить жалобу</h3>',
-    'id' => 'modal',
+    'header' => '<h3>Сообщить о проблеме</h3>',
+    'id' => 'modal1',
     'size' => 'modal-md',
     'closeButton' => [
         'id' => 'close-button',
@@ -62,7 +63,7 @@ yii\bootstrap\Modal::begin([
 ]);
 
 $form = ActiveForm::begin([
-    'id' => 'login-form',
+    'id' => 'login-form1',
     'options' => ['class' => 'form-horizontal', 'style' => "margin: 20px"],
 ]) ?>
 <?= $form->field(new MessageForm(), 'message')->textarea(['rows' => '6'])->label('') ?>
@@ -78,12 +79,49 @@ $form = ActiveForm::begin([
 
 <?php yii\bootstrap\Modal::end();
 ?>
+
+<?php
+yii\bootstrap\Modal::begin([
+    'headerOptions' => ['id' => 'modalHeader-2'],
+    'header' => '<h3>Оставить экостатус</h3>',
+    'id' => 'modal2',
+    'size' => 'modal-md',
+    'closeButton' => [
+        'id' => 'close-button',
+        'class' => 'close',
+        'data-dismiss' => 'modal',
+    ]
+]);
+
+$form = ActiveForm::begin([
+    'id' => 'login-form2',
+    'options' => ['class' => 'form-horizontal', 'style' => "margin: 20px"],
+]) ?>
+<?= $form->field(new MessageForm(), 'message')->textarea(['rows' => '6'])->label('') ?>
+
+<div class="form-group">
+    <div class="col-lg-offset-1 col-lg-11">
+        <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
+    </div>
+</div>
+<?php ActiveForm::end() ?>
+
+
+
+<?php yii\bootstrap\Modal::end();
+?>
+
 <?php $this->endBody() ?>
 <?php
 $script = <<< JS
     $(function() {
-        $('.openModal').click(function () {
-            $('#modal').modal('show')
+        $('.openModal1').click(function () {
+            $('#modal1').modal('show')
+        });
+    });
+$(function() {
+        $('.openModal2').click(function () {
+            $('#modal2').modal('show')
         });
     });
 JS;
