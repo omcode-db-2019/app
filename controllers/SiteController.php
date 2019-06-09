@@ -109,9 +109,9 @@ class SiteController extends Controller
                 'options' => [
                     [
                         'hintContent' => $measurement->station->name,
-//                        'balloonContentHeader' => 'a',
+                        'balloonContentHeader' => 'a',
                         'balloonContentBody' => $measurement->date,
-//                        'balloonContentFooter' => 's',
+                        'balloonContentFooter' => 's',
                     ],
                     [
                         'preset' => 'islands#icon',
@@ -120,8 +120,8 @@ class SiteController extends Controller
                 ]
             ];
         }
-        $items = array_merge($items, $this->buildCompanyItems());
-        return $this->render('index', ['items' => $items]);
+
+        return $this->render('index', ['items' => array_merge($items, $this->buildCompanyItems())]);
     }
 
     private function buildCompanyItems()
