@@ -47,9 +47,12 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-
-        $stationIds = Station::find('id')->where(['service_id' => 1])->asArray()->column();
-        $measurements = Measurement::find()->joinWith('station')->where(['station_id' => $stationIds])->orderBy('date')->all();
+        $stationIds = Station::find()->where(['service_id' => 1])->asArray()->column();
+        $measurements = Measurement::find()
+            ->joinWith('station')
+            ->where(['station_id' => $stationIds])
+            ->orderBy('date')
+            ->limit(count($stationIds))->all();
 
 
         // Complaints
@@ -65,7 +68,6 @@ class SiteController extends Controller
                         'balloonContentHeader' => $message->problem,
                         'balloonContentBody' => $message->comments,
                         'balloonContentFooter' => '',
-                        'iconImageHref' =>  '/maps/doc/jsapi/2.x/examples/images/myIcon.gif',
                     ],
                     [
                         'preset' => 'islands#circleIcon',
