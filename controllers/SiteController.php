@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Message;
 use app\models\Station;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -44,17 +45,36 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $stations = Station::findAll(['service_id' => 1]);
+        $messages = Message::find()->limit(100)->all();
         $items = [];
+        foreach ($messages as $message) {
+            $items[] = [
+                'latitude' => $message->latitude,
+                'longitude' => $message->longitude,
+                'options' => [
+                    [
+                        'hintContent' => $message->problem,
+                        'balloonContentHeader' => $message->problem,
+                        'balloonContentBody' => $message->comments,
+                        'balloonContentFooter' => '',
+                    ],
+                    [
+                        'preset' => 'islands#circleIcon',
+                        'iconColor' => '#19a111',
+                    ]
+                ]
+            ];
+        }
         foreach ($stations as $station) {
             $items[] = [
                 'latitude' => $station->latitude,
                 'longitude' => $station->longitude,
                 'options' => [
                     [
-                        'hintContent' => 'Подсказка при наведении на маркет',
-                        'balloonContentHeader' => 'Заголовок после нажатия на маркер',
-                        'balloonContentBody' => 'Контент после нажатия на маркер',
-                        'balloonContentFooter' => 'Футер после нажатия на маркер',
+                        'hintContent' => $station->name,
+//                        'balloonContentHeader' => '',
+//                        'balloonContentBody' => '',
+//                        'balloonContentFooter' => '',
                     ],
                     [
                         'preset' => 'islands#icon',
